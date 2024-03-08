@@ -1,0 +1,15 @@
+# Example required variables
+cloudflare_api_token  = "<API_TOKEN>"
+cloudflare_account_id = "<ACCOUNT_ID>"
+
+# Also required unless webhook_enabled is set to "false"
+webhook_url = "https://uniquedomain.webhook.office.com/webhookb2/<GUID>@<GUID>/IncomingWebhook/<GUID>/<GUID>"
+
+# Example optional variables
+cloudflare_r2_bucket_name        = "dns-backups"
+cloudflare_r2_bucket_location    = "APAC"
+cloudflare_token_name            = "worker-dns-backup"
+cloudflare_worker_script_name    = "worker-dns-backup"
+cloudflare_worker_cron_schedules = ["0 * * * *"]
+webhook_enabled                  = "true"
+webhook_failure_only             = "true"
