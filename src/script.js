@@ -9,6 +9,8 @@ export default {
 
         try {
             const zones = await this.fetchPaginated(env.CLOUDFLARE_API_TOKEN, `${CLOUDFLARE_API_URL}/zones`);
+
+            console.log(zones);
             for (const zone of zones) {
                 const dnsExport = await this.fetchFromUrl(env.CLOUDFLARE_API_TOKEN, `${CLOUDFLARE_API_URL}/zones/${zone.id}/dns_records/export`);
                 const currentDate = new Date();
@@ -32,10 +34,11 @@ export default {
 
     async fetchPaginated(token, url, params = {}) {
         const allResults = [];
-        let cursor;
+        let page = 1;
+        let totalPages = 1;
 
         do {
-            const currentParams = { ...params, cursor };
+            const currentParams = { ...params, page };
             const filteredParams = Object.fromEntries(
                 Object.entries(currentParams).filter(([_, v]) => v !== undefined)
             );
@@ -48,8 +51,12 @@ export default {
             }
             const data = await response.json();
             allResults.push(...data.result);
-            cursor = data.result_info?.cursor;
-        } while (cursor);
+
+            const perPage = data.result_info.per_page;
+            const totalCount = data.result_info.total_count;
+            totalPages = Math.ceil(totalCount / perPage)
+            page++;
+        } while (page <= totalPages);
 
         return allResults;
     },
