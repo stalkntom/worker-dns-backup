@@ -22,3 +22,5 @@ account - Workers R2 Storage:Edit, Workers Scripts:Edit
 All users - API Tokens:Edit
 ```
 To create a Token with these permissions use the "Create Additional Tokens" template.
+
+If the Terraform deployment is to be used once for setup and no managed via pipeline, the token used to provision the Workers token should be deleted. 
